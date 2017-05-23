@@ -12,3 +12,9 @@ test:
   override:
     - docker-compose up -d
     - docker-compose run dockerapp python test.py
+deployment: 
+  hub: 
+    branch: [circle_ci_publish, master]
+    commands:
+      - docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_ID -p $DOCKER_HUB_PW
+      - docker tag dockerapp_dockerapp $DOCKER_HUB_ID/dockerapp:$CIRCLE_SHA1
